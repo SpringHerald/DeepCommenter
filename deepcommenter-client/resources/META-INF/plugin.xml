@@ -30,7 +30,7 @@
     <action id="TestGeneration.GenerateCommentAction" class="tech.czxs.deepcommenter.GenerateCommentAction"
             text="Generate Comment" description="generate comment for select sentences">
       <add-to-group group-id="CodeMenu" anchor="after" relative-to-action="Generate"/>
-      <keyboard-shortcut keymap="$default" first-keystroke="meta alt SLASH"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt SLASH"/>
     </action>
   </actions>
 

@@ -15,6 +15,10 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.TextRange;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Properties;
+
 public class GenerateCommentAction extends AnAction {
 
     @Override
@@ -49,8 +53,12 @@ public class GenerateCommentAction extends AnAction {
 //        }
         String result;
         try {
+            Properties props = new Properties();
+            props.load(this.getClass().getResourceAsStream("/server.properties"));
+            String serverAddr = props.getProperty("server-address");
+
             String s = selectedText;
-            result = HttpClientPool.getHttpClient().post("http://47.98.158.183:5000/s", s);
+            result = HttpClientPool.getHttpClient().post("http://"+ serverAddr + ":5000/s", s);
 //            result = HttpClientPool.getHttpClient().post("http://127.0.0.1:5000/s", s);
 
         } catch (Exception ex) {
