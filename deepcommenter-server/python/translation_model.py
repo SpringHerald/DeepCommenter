@@ -235,7 +235,7 @@ class TranslationModel:
 
             utils.heatmap(src_tokens, trg_tokens, weights, output_file=output_file)
 
-    def decode(self, code_string=None, output=None, remove_unk=False,
+    def decode(self, code_string=None, ast_sbt=None, output=None, remove_unk=False,
                raw_output=False, max_test_size=None, **kwargs):
 
         # empty `test` means that we read from standard input, which is not possible with multiple encoders
@@ -257,7 +257,7 @@ class TranslationModel:
             else:
                 batch_size = self.batch_size
                 lines = list(lines)
-            lines = [(code_string,)]
+            lines = [(code_string, ast_sbt)]
 
             hypothesis_iter = self.decode_batch(lines, batch_size, remove_unk=remove_unk)
 

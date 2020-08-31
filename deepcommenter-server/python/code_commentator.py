@@ -15,6 +15,8 @@ from operator import itemgetter
 
 import my_parser
 import utils, evaluation
+from ast_traversal import SBT_
+from get_ast import gen_ast
 from translation_model import TranslationModel, load_checkpoint
 app = Flask(__name__)
 
@@ -134,7 +136,7 @@ def main(args=None):
     args = parser.parse_args(args)
 
     # read config file and default config
-    with open('../model/default.yaml') as f:
+    with open('../emse-hybrid/default.yaml') as f:
         default_config = utils.AttrDict(yaml.safe_load(f))
 
     with open(args.config) as f:
@@ -335,8 +337,17 @@ def main(args=None):
             global_config = config
             global_model = model
             utils.log('starting decoding')
-            # model.decode(code_string, **config)
-            app.run(host='0.0.0.0')
+            s = """
+                public PaymentDataException(String message, Reason reason){
+                    super(message);
+                    setMessageKey(getMessageKey()+reason.toString());
+                }
+                """
+            ast_sbt = gen_ast(s)
+            (_, _, code_string) = my_parser.parse_java(s)
+            res = model.decode(code_string, ast_sbt, **config)
+            print(res)
+            # app.run(host='0.0.0.0')
         elif args.eval is not None:
             model.evaluate(on_dev=False, **config)
         elif args.align is not None:
@@ -357,11 +368,14 @@ import time
 def f1():
     t1 = time.time()
     s = request.form['s']
+    ast_sbt = gen_ast(s)
+    print('####')
+    print(ast_sbt)
     (_, _, s) = my_parser.parse_java(s)
     print(s)
     global global_model, global_config, global_sess
     with global_sess.as_default():
-        res = global_model.decode(s + '\n', **global_config)
+        res = global_model.decode(s + '\n', ast_sbt, **global_config)
         return "[%.2f s] " % (time.time() - t1) + res
 
 
