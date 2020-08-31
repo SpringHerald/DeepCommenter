@@ -22,7 +22,6 @@ public class GenerateCommentAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        // TODO: insert action logic here
         Editor editor = e.getData(PlatformDataKeys.EDITOR);
         if (editor == null) return;
         Project project = e.getProject();
@@ -77,8 +76,6 @@ public class GenerateCommentAction extends AnAction {
             String serverAddr = props.getProperty("server-address");
 
             result = HttpClientPool.getHttpClient().post("http://" + serverAddr + ":5000/s", selectedText);
-//            result = HttpClientPool.getHttpClient().post("http://127.0.0.1:5000/s", s);
-
         } catch (Exception ex) {
             ex.printStackTrace();
             Messages.showMessageDialog("Failed to connect to server.", "Information", Messages.getInformationIcon());
