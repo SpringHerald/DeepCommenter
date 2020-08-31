@@ -25,15 +25,6 @@ import java.util.List;
         private static PoolingHttpClientConnectionManager connectionManager;
 
 
-        /**
-         * create a client pool for http client .
-         */
-        /**
-         * create a client pool for http client .
-         */
-        /**
-         * create a client pool for http client .
-         */
         public static HttpClientPool getHttpClient() {
             HttpClientPool tmp = clientInstance;
             if (tmp == null) {
@@ -48,12 +39,6 @@ import java.util.List;
             return tmp;
         }
 
-    /**
-     * creates a new httpclient object .
-     */
-    /**
-     * creates a new httpclient object .
-     */
     private HttpClientPool() {
         connectionManager = new PoolingHttpClientConnectionManager();
         connectionManager.setMaxTotal(200);// 连接池
